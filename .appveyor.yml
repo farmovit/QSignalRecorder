@@ -7,7 +7,7 @@ environment:
   APPVEYOR_YML_DISABLE_PS_LINUX: true
 
 init:
-  - cmd: set QTDIR=C:\Qt\5.12.2\mingw73_64
+  - cmd: set QTDIR=C:\Qt\5.12.5\mingw73_64
   - cmd: set QTTOOLS=C:\Qt\Tools\mingw730_64\bin
   - cmd: set PATH=%PATH%;%QTDIR%\bin;%QTTOOLS%
   - cmd: set CC=%QTTOOLS%\gcc.exe
