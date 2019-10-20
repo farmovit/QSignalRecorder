@@ -21,16 +21,16 @@ Let's assume you implemented some QObject class that represents your business lo
 ```c++
 class BusinessLogic: public QObject
 {
-Q_OBJECT
+	Q_OBJECT
 public:
-// ...
+	// ...
 	void doSomeBusinessLogic(); // emits firstEmittedSignal, secondEmittedSignal, thirdEmittedSignal
-// ...
+	// ...
 signals:
 	void firstEmittedSignal();
 	void secondEmittedSignal(int i);
 	void thirdEmittedSignal(int j = 0);
-// ...
+	// ...
 };
 ```
 It is important to you to have that signals emitted in a certain order. So you now want to test your `BusinessLogic`. Qt provides a helpful mechanism to do it named `QSignalSpy` that should be created for each signal of your object and each of these spies should be then tested. E.g.
@@ -49,22 +49,23 @@ void test()
 	QCOMPARE(spy3.count(), 1);
 	arguments = spy3.takeFirst();
 	QVERIFY(arguments.at(0).toInt() == 3);
+	// How to check an order?
 }
 ```
-The approach above does not allow you to test the order of signal emission and looks overcomplicated for that needs. Also it is not representative for code readers who wants to now how the code works. Moreover it is bug prone. So instead of that you can use my library
+The approach above does not allow you to test the order of signal emission and looks overcomplicated for that needs. Also it is not representative for code readers who wants to now how the code works. Moreover it is bug prone. So instead of that you can use this library
 ```c++
 void test()
 {
 	BusinessLogic logic;
 	QSignalRecorder recorder(&logic);
-	static std::vector<SignalRecords> expected_signals =
+	static std::vector<SignalRecords> expectedRecords =
 	{
 		{"firstEmittedSignal", {}},
 		{"secondEmittedSignal", {2}},
 		{"thirdEmittedSignal", {3}},
 	}
 	//... do something with logic
-	QVERIFY(expected_signals == recorder.records());
+	QVERIFY(expectedRecords == recorder.records());
 }
 ```
 Also feel free to look the [test](https://github.com/farmovit/QSignalRecorder/blob/master/test/SignalRecorderTest.cpp) to get more information.
