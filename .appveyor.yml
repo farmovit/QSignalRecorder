@@ -1,8 +1,11 @@
 version: 1.0.0.{build}
 
 image: 
-- Visual Studio 2017
+  - Visual Studio 2017
 
+environment:
+  APPVEYOR_YML_DISABLE_PS_LINUX: true
+	
 init:
   - cmd: set QTDIR=C:\Qt\5.12.2\mingw73_64
   - cmd: set QTTOOLS=C:\Qt\Tools\mingw730_64\bin
