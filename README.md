@@ -1,10 +1,8 @@
 <div align="center">
 
-  [![Status](https://img.shields.io/badge/status-active-success.svg)]()
-  [![GitHub Issues](https://img.shields.io/github/issues/farmovit/QSignalRecorder](https://github.com/farmovit/QSignalRecorder/issues)
-  [![GitHub Pull Requests](https://img.shields.io/github/issues-pr/farmovit/QSignalRecorder)](https://github.com/farmovit/QPointerGrabber/pulls)
-  [![License](https://img.shields.io/github/license/farmovit/QSignalRecorder)](/LICENSE)
 	[![Build status](https://img.shields.io/appveyor/ci/farmovit/QSignalRecorder)](https://ci.appveyor.com/project/farmovit/qsignalrecorder)
+  [![GitHub Issues](https://img.shields.io/github/issues/farmovit/QSignalRecorder)](https://github.com/farmovit/QSignalRecorder/issues)
+  [![GitHub Pull Requests](https://img.shields.io/github/issues-pr/farmovit/QSignalRecorder)](https://github.com/farmovit/QPointerGrabber/pulls)
 
 </div>
 
