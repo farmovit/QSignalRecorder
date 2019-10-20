@@ -16,7 +16,7 @@ init:
   - cmd: set PATH=%PATH:C:\Program Files\Git\usr\bin=%
 
 before_build:
-  - cmd: cd C:\projects\qsignalrecorder
+  - cmd: cd C:\projects\qsignalrecorder*
   - cmd: md build
 
 build_script:
