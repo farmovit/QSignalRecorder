@@ -7,16 +7,20 @@ class GoodTestObject : public QObject
     Q_OBJECT
 public:
     GoodTestObject() = default;
-    void emitSignalWithoutArguments() {
+    void emitSignalWithoutArguments()
+    {
         emit signalWithoutArguments();
     }
-    void emitSignalWithSingleArgument(int value) {
+    void emitSignalWithSingleArgument(int value)
+    {
         emit signalWithSingleArgument(value);
     }
-    void emitSignalWithDoubleArguments(int first, int second) {
+    void emitSignalWithDoubleArguments(int first, int second)
+    {
         emit signalWithDoubleArguments(first, second);
     }
-    void emitSignalWithSingleDefaultArgument(int value = 0) {
+    void emitSignalWithSingleDefaultArgument(int value = 0)
+    {
         emit signalWithSingleDefaultArgument(value);
     }
 signals:
@@ -53,7 +57,8 @@ SignalRecorderTest::SignalRecorderTest(QObject *parent)
     : QObject(parent) {
 }
 
-void SignalRecorderTest::simpleRecordTest() {
+void SignalRecorderTest::simpleRecordTest()
+{
     GoodTestObject testObject;
     QSignalRecorder recorder(&testObject);
     QVERIFY(recorder.isValid());
@@ -70,23 +75,25 @@ void SignalRecorderTest::simpleRecordTest() {
     testObject.emitSignalWithDoubleArguments(1, 2);
     testObject.emitSignalWithSingleDefaultArgument();
     testObject.emitSignalWithSingleDefaultArgument(1);
-
     QVERIFY(signalsScenario == recorder.records());
 }
 
-void SignalRecorderTest::nullptrObjectTest() {
+void SignalRecorderTest::nullptrObjectTest()
+{
     BadTestObject* testObject = nullptr;
     QSignalRecorder recorder(testObject);
     QVERIFY(!recorder.isValid());
 }
 
-void SignalRecorderTest::noMetaMethodsObjectTest() {
+void SignalRecorderTest::noMetaMethodsObjectTest()
+{
     BadTestObject2 testObject;
     QSignalRecorder recorder(&testObject);
     QVERIFY(!recorder.isValid());
 }
 
-void SignalRecorderTest::noSignalsObjectTest() {
+void SignalRecorderTest::noSignalsObjectTest()
+{
     BadTestObject testObject;
     QSignalRecorder recorder(&testObject);
     QVERIFY(!recorder.isValid());

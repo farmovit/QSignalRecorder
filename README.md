@@ -1,4 +1,5 @@
 <div align="center">
+
   [![Status](https://img.shields.io/badge/status-active-success.svg)]()
   [![GitHub Issues](https://img.shields.io/github/issues/farmovit/QSignalRecorder](https://github.com/farmovit/QSignalRecorder/issues)
   [![GitHub Pull Requests](https://img.shields.io/github/issues-pr/farmovit/QSignalRecorder)](https://github.com/farmovit/QPointerGrabber/pulls)
@@ -17,7 +18,7 @@ A small library that allows you to record all signals with parameters emitted by
 - Qt 5.X
 
 #### Usage
-Let's assume you implement some QObject class that represents your business logic and emits some signals:
+Let's assume you implemented some QObject class that represents your business logic and emits some signals:
 
 ```c++
 class BusinessLogic: public QObject
@@ -52,7 +53,7 @@ void test()
 	QVERIFY(arguments.at(0).toInt() == 3);
 }
 ```
-The approach above does not allow you to test the order of signal emission and looks overcomplicated for that needs. Also it is not representative for code readers who want to now how the code works and bug prone. So instead of that you can use provided library
+The approach above does not allow you to test the order of signal emission and looks overcomplicated for that needs. Also it is not representative for code readers who wants to now how the code works. Moreover it is bug prone. So instead of that you can use my library
 ```c++
 void test()
 {
