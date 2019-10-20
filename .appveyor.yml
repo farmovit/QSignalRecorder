@@ -1,0 +1,22 @@
+version: 1.0.0.{build}
+
+image: 
+- Visual Studio 2017
+
+init:
+  - cmd: set QTDIR=C:\Qt\5.12.2\mingw73_64
+  - cmd: set QTTOOLS=C:\Qt\Tools\mingw730_64\bin
+  - cmd: set PATH=%PATH%;%QTDIR%\bin;%QTTOOLS%
+  - cmd: set CC=%QTTOOLS%\gcc.exe
+  - cmd: set CXX=%QTTOOLS%\g++.exe
+  - cmd: set Qt5_DIR=%QTDIR%\lib\cmake\Qt5
+  - cmd: set PATH=%PATH:C:\Program Files\Git\usr\bin=%
+
+before_build:
+  - cmd: cd C:\projects\qsignalrecorder
+  - cmd: md build
+
+build_script:
+  - cmd: cd build
+  - cmd: cmake -G"CodeBlocks - MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release ..
+  - cmd: mingw32-make -j 4
