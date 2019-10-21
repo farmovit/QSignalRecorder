@@ -23,11 +23,16 @@ public:
     {
         emit signalWithSingleDefaultArgument(value);
     }
+    void emitSignalWithQVariantArgument(QVariant value)
+    {
+        emit signalWithQVariantArgument(value);
+    }
 signals:
     void signalWithoutArguments();
     void signalWithSingleArgument(int value);
     void signalWithDoubleArguments(int first, int second);
     void signalWithSingleDefaultArgument(int value = 0);
+    void signalWithQVariantArgument(QVariant value);
 };
 
 class GoodTestObjectChild : public GoodTestObject
@@ -69,12 +74,14 @@ void SignalRecorderTest::simpleRecordTest()
         {"signalWithDoubleArguments", {1, 2}},
         {"signalWithSingleDefaultArgument", {0}},
         {"signalWithSingleDefaultArgument", {1}},
+        {"signalWithQVariantArgument", {QStringLiteral("test emit")}},
     };
     testObject.emitSignalWithoutArguments();
     testObject.emitSignalWithSingleArgument(1);
     testObject.emitSignalWithDoubleArguments(1, 2);
     testObject.emitSignalWithSingleDefaultArgument();
     testObject.emitSignalWithSingleDefaultArgument(1);
+    testObject.emitSignalWithQVariantArgument(QStringLiteral("test emit"));
     QVERIFY(signalsScenario == recorder.records());
 }
 
