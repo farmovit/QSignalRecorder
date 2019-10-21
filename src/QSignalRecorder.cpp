@@ -17,7 +17,7 @@ bool SignalRecord::operator!=(const SignalRecord &other) const noexcept
 
 // NB: This class duplicates some functionality of QSignalSpy.
 // But we dont want to have dependency from QtTest.
-class QSignalRecorder::SignalArgumentsStorage: public QObject, public QList<QList<QVariant>>
+class QSignalRecorder::SignalArgumentsStorage: public QObject, public QList<QVariantList>
 {
 public:
     explicit SignalArgumentsStorage(const QObject *obj, const QMetaMethod &signalMetaMethod,
@@ -25,7 +25,7 @@ public:
         : QObject(parent)
     {
         if (!QMetaObject::connect(obj, signalIndex, this, QObject::staticMetaObject.methodCount(),
-                                  Qt::DirectConnection, nullptr)) {
+                                  Qt::DirectConnection)) {
             qWarning("SignalArgumentsStorage: QMetaObject::connect returned false. Unable to connect.");
         } else {
             initArgs(signalMetaMethod, obj);
@@ -57,37 +57,37 @@ public:
     {
         mArgumentTypes.reserve(member.parameterCount());
         for (int i = 0; i < member.parameterCount(); ++i) {
-            int tp = member.parameterType(i);
-            if (tp == QMetaType::UnknownType && obj) {
-                void *argv[] = { &tp, &i };
+            int parameterType = member.parameterType(i);
+            if (parameterType == QMetaType::UnknownType && obj) {
+                void *argv[] = { &parameterType, &i };
                 QMetaObject::metacall(const_cast<QObject*>(obj),
                                       QMetaObject::RegisterMethodArgumentMetaType,
                                       member.methodIndex(), argv);
-                if (tp == -1) {
-                    tp = QMetaType::UnknownType;
+                if (parameterType == -1) {
+                    parameterType = QMetaType::UnknownType;
                 }
             }
-            if (tp == QMetaType::UnknownType) {
+            if (parameterType == QMetaType::UnknownType) {
                 qWarning("SignalArgumentsStorage: Unable to handle parameter '%s' of type '%s' of method '%s',"
                          " use qRegisterMetaType to register it.",
                          member.parameterNames().at(i).constData(),
                          member.parameterTypes().at(i).constData(),
                          member.name().constData());
             }
-            mArgumentTypes << tp;
+            mArgumentTypes << parameterType;
         }
     }
-
-    void appendArgs(void **a)
+    template<class Args>
+    void appendArgs(Args args)
     {
         QList<QVariant> list;
         list.reserve(mArgumentTypes.count());
         for (int i = 0; i < mArgumentTypes.count(); ++i) {
             const QMetaType::Type metaType = static_cast<QMetaType::Type>(mArgumentTypes[i]);
             if (metaType == QMetaType::QVariant)
-                list << *reinterpret_cast<QVariant *>(a[i + 1]);
+                list << *static_cast<QVariant *>(args[i + 1]);
             else
-                list << QVariant(metaType, a[i + 1]);
+                list << QVariant(metaType, args[i + 1]);
         }
         append(list);
     }
